@@ -10,14 +10,20 @@ try {
 catch (Exception $e) {
   echo $e->getMessage() . "\n";
   echo "Redis database seems to be unavailable\n";
-  exit;
+  return 1;
 }
 
-for ($i = 0; $i < 517; ++$i) {
-  $label = $client->hget("product_$i", "label");
-  $price = $client->hget("product_$i", "price");
+$products = $client->keys("product:*");
+if (empty($products)) {
+  echo "No data received from " . $_ENV["DB_PORT"] . "\n";
+  return 0;
+}
 
-  var_dump(trim($label));
-  var_dump(floatval($price));
+foreach ($products as $product) {
+
+  $productContent = $client->hmget($product, "label", "price");
+
+  var_dump(trim($productContent[0]));
+  var_dump(floatval($productContent[1]));
 
 }

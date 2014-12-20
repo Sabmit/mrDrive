@@ -13,7 +13,7 @@ function process_data($html, $redisEnabled, $client) {
     $price = preg_replace(["/[^0-9,\.]/", "/,/"], ["", "."], $item->find(".prix h3", 0)->plaintext);
 
     if ($redisEnabled) {
-      $client->hmset("product_$id", "label", $label, "price", $price);
+      $client->hmset("product:$id", "label", $label, "price", $price);
     }
     echo "Product $id => Name = " . $label . "\n";
     echo "Product $id => Price = " . $price . "\n";
@@ -36,7 +36,10 @@ $connection->launch('http://www.coursesu.com/listeproduits.vignettes.navtop.show
 
 $page = $connection->getProxyData();
 $html = new simple_html_dom();
-$html->load(json_decode($page["return"])->content);
+$data = json_decode($page["return"]);
+if (!empty($data)) {
+  $html->load($data->content);
+}
 
 if (empty($html)) {
   echo "Bad data received\n";
