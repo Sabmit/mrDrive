@@ -10,7 +10,7 @@ sudo docker run --name redis-server -d redis
 sudo docker run -it --name mrDrive --link redis-server:db sabmit/mrdrive
 ```
 
-Inside the container please make sure ```Tor``` is running (use the ```sh startup.sh``` script.
+Inside the container please make sure ```Tor``` is running (use the ```startup.sh``` script).
 
 ```sh
 root@e605cd33c90b:/apps/crawling-2# ls -l
