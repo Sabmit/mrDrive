@@ -1,0 +1,27 @@
+{
+    "size":0,
+    "aggs" : {
+        "group_by_keyword": {
+            "terms": {
+                "field": "keyword",
+                "order": {
+                    "group_by_ips>sum_used": "desc"
+                }
+            },
+            "aggs" : {
+                "group_by_ips" : {
+                    "nested" : {
+                        "path" : "ips"
+                    },
+                    "aggs" : {
+                        "sum_used" : {
+                            "sum" : {
+                                "field" : "ips.used"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
