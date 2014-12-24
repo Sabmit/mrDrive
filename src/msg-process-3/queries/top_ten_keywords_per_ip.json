@@ -26,7 +26,7 @@
                                     "terms": {
                                         "field": "keyword",
                                         "order": {
-                                            "ips>max_used": "DESC"
+                                            "ips>sum_used": "DESC"
                                         }
                                     },
                                     "aggs" : {
@@ -35,7 +35,7 @@
                                                 "path" : "ips"
                                             },
                                             "aggs" : {
-                                                "max_used" : {
+                                                "sum_used" : {
                                                     "sum" : {
                                                         "field":"ips.used"
                                                     }
