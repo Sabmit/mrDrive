@@ -1,0 +1,11 @@
+<div ng-show="tab.isSet(2)">
+  <div ng-repeat="ip in topIpsCtrl.Ips[0]">
+    <blockquote>
+      <span>{{ip["Ip"]}}</span>
+      <div ng-repeat="keywords in ip.Keywords">
+          <span>{{keywords["Keyword"]}}</span>
+          <span style="">{{keywords["Nb_used"]}}</span>
+      </div>
+    </blockquote>
+  </div>
+</div>

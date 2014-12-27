@@ -19,8 +19,8 @@ func searchTopKeyword(conn *goes.Connection) ([]keywordContainer, error) {
 			var keyword keywordContainer
 
 			if group_by_ips, ok := value["group_by_ips"].(map[string]interface{}); ok {
-				keyword.keyword = value["key"].(string)
-				if keyword.nb_used, ok = group_by_ips["sum_used"].(map[string]interface{})["value"].(float64); ok {
+				keyword.Keyword = value["key"].(string)
+				if keyword.Nb_used, ok = group_by_ips["sum_used"].(map[string]interface{})["value"].(float64); ok {
 					keywords[key] = keyword
 				} else {
 					return nil, fmt.Errorf("Field sum_used is in wrong format")
@@ -46,13 +46,13 @@ func searchTopIps(conn *goes.Connection) ([]IpContainer, error) {
 		var ipContainer IpContainer
 		var ok bool
 
-		if ipContainer.ip, ok = nested.GetStr(value, "key_as_string"); ok {
-			ipContainer.keywords = make([]keywordContainer, 10)
+		if ipContainer.Ip, ok = nested.GetStr(value, "key_as_string"); ok {
+			ipContainer.Keywords = make([]keywordContainer, 10)
 			if keywords, ok := nested.GetS(value, "ip_to_keyword.top_keyword_per_ip.buckets"); ok {
 				for keyKeyword, keyword := range keywords {
-					if ipContainer.keywords[keyKeyword].keyword, ok = nested.GetStr(keyword, "key"); ok {
+					if ipContainer.Keywords[keyKeyword].Keyword, ok = nested.GetStr(keyword, "key"); ok {
 						nb_used, _ := nested.Get(keyword, "ips.sum_used.value")
-						ipContainer.keywords[keyKeyword].nb_used, _ = nb_used.(float64)
+						ipContainer.Keywords[keyKeyword].Nb_used, _ = nb_used.(float64)
 					}
 					ips[keyIp] = ipContainer
 				}
@@ -62,4 +62,9 @@ func searchTopIps(conn *goes.Connection) ([]IpContainer, error) {
 		}
 	}
 	return ips, nil
+}
+
+
+func searchKeyword(keyword string, conn *goes.Connection) (keywordContainer, error) {
+	return keywordContainer{}, nil;
 }

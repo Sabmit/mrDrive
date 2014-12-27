@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li ng-class="{ active:tab.isActive('/') }"><a ng-href="#/" ng-click="tab.setTab(0)">Search a keywords</a></li>
+        <li ng-class="{ active:tab.isActive('/topKeywords') }"><a ng-href="#/topKeywords" ng-click="tab.setTab(1)">Top 10 Keywords</a></li>
+        <li ng-class="{ active:tab.isActive('/topIps') }"><a ng-href="#/topIps" ng-click="tab.setTab(2)">Top 10 Ips</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -16,9 +16,10 @@ CMDBUILD	= go build
 PRINTF		= /usr/bin/printf
 RM		= /bin/rm -rf
 
-SRCS		= $(SR)server.go	\
-		  $(SR)queries.go	\
-		  $(SR)models.go
+SRCS		= $(SR)server.go			\
+		  $(SR)queries.go			\
+		  $(SR)models.go			\
+		  $(SR)topRequestHandler.go
 
 ####################### - Makefile Rules - #######################
 
