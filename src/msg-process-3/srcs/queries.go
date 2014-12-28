@@ -84,4 +84,16 @@ var (
 		},
 	}
 
+	QueryKeyword = func(keyword string) map[string]interface{} {
+		var query map[string]interface{}
+
+		query = map[string]interface{} {
+			"query": map[string]interface{} {
+				"match": map[string]interface{} {
+					"keyword": keyword,
+				},
+			},
+		}
+		return query
+	}
 )

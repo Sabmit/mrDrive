@@ -21,6 +21,12 @@ var (
 
 var rxExt = regexp.MustCompile(`(\.(?:xml|json))\/?$`)
 
+
+type keywordData struct {
+	Keyword string
+	Ips interface{}
+}
+
 type keywordContainer struct {
 	Keyword string
 	Nb_used float64

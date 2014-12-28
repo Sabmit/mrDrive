@@ -65,6 +65,16 @@ func searchTopIps(conn *goes.Connection) ([]IpContainer, error) {
 }
 
 
-func searchKeyword(keyword string, conn *goes.Connection) (keywordContainer, error) {
-	return keywordContainer{}, nil;
+func searchKeyword(keyword string, conn *goes.Connection) (keywordData, error) {
+	var keywordData = keywordData{}
+
+	if searchResults, err := conn.Search(QueryKeyword(keyword), []string{"mrdrive"}, []string{"keywords"}, nil); err == nil {
+		if nbResult := searchResults.Hits.Total; nbResult > 0 {
+			resultKeyword := searchResults.Hits.Hits[0]
+
+			keywordData.Keyword, _ = nested.GetStr(resultKeyword, "Source.keyword")
+			keywordData.Ips, _ = nested.Get(resultKeyword, "Source.ips")
+		}
+	}
+	return keywordData, nil
 }

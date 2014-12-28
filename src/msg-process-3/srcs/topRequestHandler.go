@@ -30,7 +30,15 @@ func topKeywordsHandler(params martini.Params, conn *goes.Connection, enc routes
 	return http.StatusInternalServerError, ""
 }
 
+
+
 func keywordHandler(params martini.Params, conn *goes.Connection, enc routes.Encoder) (int, string) {
-	_, _ = searchKeyword(params["keyword"], conn)
-	return 200, ""
-}
+	if result, err := searchKeyword(params["keyword"], conn); err == nil {
+		if ret, err := enc.Encode(result); err == nil {
+			log.Printf("\n\nresult RET = %#v", ret)
+			log.Printf("\n\nresult RESULT = %#v", result)
+			return http.StatusOK, ret
+		}
+		log.Println(err)
+	}
+	return http.StatusInternalServerError, ""}
