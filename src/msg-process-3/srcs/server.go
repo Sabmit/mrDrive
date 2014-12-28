@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	ES_HOST = "172.17.0.7"
+	ES_HOST = "172.17.0.3"
 	ES_PORT = "9200"
 	m *martini.Martini
 )

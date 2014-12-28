@@ -34,11 +34,12 @@ func topKeywordsHandler(params martini.Params, conn *goes.Connection, enc routes
 
 func keywordHandler(params martini.Params, conn *goes.Connection, enc routes.Encoder) (int, string) {
 	if result, err := searchKeyword(params["keyword"], conn); err == nil {
-		if ret, err := enc.Encode(result); err == nil {
+		if ret, err := enc.EncodeOne(result); err == nil {
 			log.Printf("\n\nresult RET = %#v", ret)
 			log.Printf("\n\nresult RESULT = %#v", result)
 			return http.StatusOK, ret
 		}
 		log.Println(err)
 	}
-	return http.StatusInternalServerError, ""}
+	return http.StatusInternalServerError, ""
+}

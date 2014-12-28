@@ -1,11 +1,29 @@
 <div ng-show="tab.isSet(2)">
-  <div ng-repeat="ip in topIpsCtrl.Ips[0]">
-    <blockquote>
-      <span>{{ip["Ip"]}}</span>
-      <div ng-repeat="keywords in ip.Keywords">
-          <span>{{keywords["Keyword"]}}</span>
-          <span style="">{{keywords["Nb_used"]}}</span>
-      </div>
-    </blockquote>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">List of top 10 Ips with their most used keywords</h3>
+    </div>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Ip</th>
+          <th colspan="2">Keywords</th>
+        </tr>
+      </thead>
+      <tr>
+        <td colspan="2">&nbsp;</td>
+        <th scope="row">Keyword</td>
+        <th scope="row">used</td>
+      </tr>
+      <tr ng-repeat-start="(key, ip) in topIpsCtrl.Ips[0]">
+        <td rowspan="{{ip.Keywords.length + 1}}" scope="row">{{key + 1}}</td>
+        <td rowspan="{{ip.Keywords.length + 1}}">{{ip["Ip"]}}</td>
+      </tr>
+      <tr ng-repeat-end ng-repeat="keywords in ip.Keywords">
+        <td>{{keywords["Keyword"]}}</td>
+        <td>{{keywords["Nb_used"]}}</td>
+      </tr>
+    </table>
   </div>
 </div>

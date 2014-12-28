@@ -1,10 +1,36 @@
 <div ng-show="tab.isSet(0)">
   <form ng-submit="searchCtrl.getKeywordData()">
     <div class="input-group search-keyword">
-      <input type="text" class="form-control" placeholder="Search for..." ng-model="searchCtrl.KeywordForm">
+      <input type="text" class="form-control" placeholder="Search for..." ng-model="searchCtrl.KeywordForm"  required>
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Go!</button>
+        <button ng-click="searchCtrl.getKeywordData()" class="btn btn-default" type="button">Go!</button>
       </span>
     </div>
   </form>
+
+  <div ng-show="searchCtrl.notFoundWord" class="keyword-not-found">
+    <div class="alert alert-danger" role="alert">Sorry, the keyword "{{searchCtrl.notFoundWord}}" has never been used.</div>
+  </div>
+
+  <div ng-show="searchCtrl.Found" class="keyword-found">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Keyword : {{searchCtrl.Keyword.Keyword}}<span class="badge badge-total">{{searchCtrl.total_used}}</span></h3>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ip</th>
+            <th>used</th>
+          </tr>
+        </thead>
+        <tr ng-repeat="(key, ip) in searchCtrl.Keyword.Ips">
+          <th scope="row">{{key + 1}}</th>
+          <td>{{ip.ip}}</td>
+          <td>{{ip.used}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>

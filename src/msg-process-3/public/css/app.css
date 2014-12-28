@@ -102,3 +102,20 @@ body {
 .search-keyword  button {
     line-height:2.3;
 }
+
+.keyword-not-found {
+    margin-top: 25px;
+}
+
+.keyword-found {
+    margin-top: 25px;
+}
+
+.badge-total {
+    float:right;
+    background-color:green;
+}
+
+.table th {
+    text-align:center;
+}

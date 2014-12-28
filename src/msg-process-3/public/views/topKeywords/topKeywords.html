@@ -1,8 +1,21 @@
 <div ng-show="tab.isSet(1)">
-  <div ng-repeat="keywords in topKeyCtrl.Keywords[0]">
-    <blockquote>
-      <span>{{keywords["Keyword"]}}</span>
-      <span style="">{{keywords["Nb_used"]}}</span>
-    </blockquote>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">List of top 10 kewords</h3>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Keyword</th>
+          <th>Used</th>
+        </tr>
+      </thead>
+      <tr ng-repeat="(key, keywords) in topKeyCtrl.Keywords[0]">
+        <th scope="row">{{key + 1}}</th>
+        <td>{{keywords["Keyword"]}}</td>
+        <td>{{keywords["Nb_used"]}}</td>
+      </tr>
+    </table>
   </div>
 </div>
