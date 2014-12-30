@@ -1,0 +1,54 @@
+{
+    "size": 0,
+    "aggs" : {
+        "ips" : {
+            "nested" : {
+                "path" : "ips"
+            },
+            "aggs" : {
+                "group_by_ips" : {
+                    "terms" : {
+                        "field" : "ips.ip",
+                        "order" : {
+                            "total_used" : "DESC"
+                        }
+                    },
+                    "aggs" : {
+                        "total_used" : {
+                            "sum" : {
+                                "field" : "ips.used"
+                            }
+                        },
+                        "ip_to_keyword": {
+                            "reverse_nested": {},
+                            "aggs": {
+                                "top_keyword_per_ip": {
+                                    "terms": {
+                                        "field": "keyword",
+                                        "order": {
+                                            "ips>sum_used": "DESC"
+                                        }
+                                    },
+                                    "aggs" : {
+                                        "ips" : {
+                                            "nested" : {
+                                                "path" : "ips"
+                                            },
+                                            "aggs" : {
+                                                "sum_used" : {
+                                                    "sum" : {
+                                                        "field":"ips.used"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular-bootstrap": "~0.10.0",
+    "angular-resource": "latest",
+    "angular-route": "latest",
+    "angular-ui-date": "~0.0.3",
+    "angular": "latest",
+    "bootstrap-css": "~3.0.0",
+    "jquery": "~2.1.0",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "latest",
+    "angular-scenario": "latest"
+  }
+}
