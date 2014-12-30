@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-	"net"
 	"net/http"
 	"./routes"
 	"os"
@@ -10,7 +8,6 @@ import (
 	"regexp"
 	"github.com/belogik/goes"
 	"github.com/go-martini/martini"
-	"github.com/codegangsta/martini-contrib/render"
 )
 
 var (
@@ -22,9 +19,14 @@ var (
 var rxExt = regexp.MustCompile(`(\.(?:xml|json))\/?$`)
 
 
+type ipData struct {
+	Ip string
+	Used int
+}
+
 type keywordData struct {
 	Keyword string
-	Ips interface{}
+	Ips []interface{}
 }
 
 type keywordContainer struct {
@@ -40,7 +42,6 @@ type IpContainer struct {
 func init() {
 	m = martini.New()
 
-	m.Use(render.Renderer())
 	m.Use(martini.Recovery())
 	m.Use(martini.Logger())
 	m.Use(martini.Static("public"))
@@ -100,26 +101,6 @@ func getConnection() (conn *goes.Connection) {
 
 	conn = goes.NewConnection(h, p)
 	return
-}
-
-func fillDatabase(r *http.Request) {
-	ip, _, _ := net.SplitHostPort(r.RemoteAddr)
-	r.ParseForm();
-
-	log.Println("Ip => " + ip)
-
-	for key, value := range r.Form {
-		log.Println("Key:", key, "Value:", value)
-	}
-}
-
-func processDataHandler() (int, string) {
-	// if r.Method == "POST" {
-	// 	fillDatabase(r)
-	// } else {
-	// 	log.Println(r.Method + " Method received, skipped")
-	// }
-	return 200, "OK"
 }
 
 func main() {

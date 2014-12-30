@@ -19,6 +19,8 @@ RM		= /bin/rm -rf
 SRCS		= $(SR)server.go			\
 		  $(SR)queries.go			\
 		  $(SR)models.go			\
+		  $(SR)insertKeyword.go			\
+		  $(SR)postHandler.go			\
 		  $(SR)topRequestHandler.go
 
 ####################### - Makefile Rules - #######################

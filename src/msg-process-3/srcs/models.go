@@ -73,7 +73,7 @@ func searchKeyword(keyword string, conn *goes.Connection) (keywordData, error) {
 			resultKeyword := searchResults.Hits.Hits[0]
 
 			keywordData.Keyword, _ = nested.GetStr(resultKeyword, "Source.keyword")
-			keywordData.Ips, _ = nested.Get(resultKeyword, "Source.ips")
+			keywordData.Ips, _ = nested.GetS(resultKeyword, "Source.ips")
 		}
 	}
 	return keywordData, nil
