@@ -47,12 +47,13 @@ func searchTopIps(conn *goes.Connection) ([]IpContainer, error) {
 		var ok bool
 
 		if ipContainer.Ip, ok = nested.GetStr(value, "key_as_string"); ok {
-			ipContainer.Keywords = make([]keywordContainer, 10)
 			if keywords, ok := nested.GetS(value, "ip_to_keyword.top_keyword_per_ip.buckets"); ok {
-				for keyKeyword, keyword := range keywords {
-					if ipContainer.Keywords[keyKeyword].Keyword, ok = nested.GetStr(keyword, "key"); ok {
+				for _, keyword := range keywords {
+					var keywordContainer keywordContainer
+					if keywordContainer.Keyword, ok = nested.GetStr(keyword, "key"); ok {
 						nb_used, _ := nested.Get(keyword, "ips.sum_used.value")
-						ipContainer.Keywords[keyKeyword].Nb_used, _ = nb_used.(float64)
+						keywordContainer.Nb_used, _ = nb_used.(float64)
+						ipContainer.Keywords = append(ipContainer.Keywords, keywordContainer)
 					}
 					ips[keyIp] = ipContainer
 				}

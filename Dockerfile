@@ -3,8 +3,13 @@ MAINTAINER Sabbagh Fares <sabbagh.fares@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update &&                           \
+RUN \
+    echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" > /etc/apt/sources.list.d/webupd8team-java.list  && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886  && \
+    apt-get update &&                           \
+    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections  && \
     apt-get -yq install                         \
+            oracle-java8-installer              \
             php5-curl                           \
             php5-cli                            \
             wget                                \
@@ -13,8 +18,19 @@ RUN apt-get update &&                           \
             libevent-dev                        \
             libssl-dev                          \
             netcat                              \
-            curl
+            curl                                \
+	    bzr 				\
+	    git					\
+	    mercurial && \
+    rm -rf /etc/apt/sources.list.d/webupd8team-java.list
 
+ENV GOLANG_VERSION 1.3.3
+
+RUN curl -sSL https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz \
+		| tar -v -C /usr/src -xz
+RUN cd /usr/src/go/src && ./make.bash --no-clean 2>&1
+ENV PATH /usr/src/go/bin:$PATH
+ENV GOPATH /usr/src/go/
 
 RUN mkdir -p /apps/vendor
 WORKDIR /apps
@@ -23,10 +39,17 @@ RUN sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/cli/php
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer create-project --no-dev predis/predis /apps/vendor/predis
 
-RUN wget --no-check-certificate https://www.torproject.org/dist/tor-0.2.5.10.tar.gz && \
+RUN cd /tmp && \
+    wget --no-check-certificate https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.2.tar.gz && \
+    tar xvzf elasticsearch-1.4.2.tar.gz && \
+    rm -f elasticsearch-1.4.2.tar.gz && \
+    mv /tmp/elasticsearch-1.4.2 /elasticsearch
+
+RUN cd /tmp/ && \
+    wget --no-check-certificate https://www.torproject.org/dist/tor-0.2.5.10.tar.gz && \
     tar xzf tor-0.2.5.10.tar.gz && \
     cd tor-0.2.5.10 && ./configure && make install && \
-    cd /apps/ && rm -rf tor-0.2.5.10*
+    cd /tmp/ && rm -rf tor-0.2.5.10*
 
 ADD http://sourceforge.net/projects/simplehtmldom/files/simple_html_dom.php/download /apps/vendor/simple_html_dom.php
 
