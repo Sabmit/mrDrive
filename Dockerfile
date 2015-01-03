@@ -24,6 +24,13 @@ RUN \
 	    mercurial && \
     rm -rf /etc/apt/sources.list.d/webupd8team-java.list
 
+# Python modules
+RUN apt-get -yq install --no-install-recommends \
+    python-scipy                                \
+    python-pandas                               \
+    python-dev                                  \
+    g++
+
 ENV GOLANG_VERSION 1.3.3
 
 RUN curl -sSL https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz \
@@ -50,6 +57,12 @@ RUN cd /tmp/ && \
     tar xzf tor-0.2.5.10.tar.gz && \
     cd tor-0.2.5.10 && ./configure && make install && \
     cd /tmp/ && rm -rf tor-0.2.5.10*
+
+RUN cd /tmp && \
+    git clone https://github.com/scikit-learn/scikit-learn.git && \
+    cd scikit-learn && \
+    python setup.py install --user && \
+    cd && rm -rf /tmp/scikit-learn
 
 ADD http://sourceforge.net/projects/simplehtmldom/files/simple_html_dom.php/download /apps/vendor/simple_html_dom.php
 
