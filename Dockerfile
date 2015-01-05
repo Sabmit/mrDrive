@@ -64,6 +64,12 @@ RUN cd /tmp && \
     python setup.py install --user && \
     cd && rm -rf /tmp/scikit-learn
 
+RUN cd /tmp && \
+    git clone https://github.com/networkx/networkx.git && \
+    cd networkx && \
+    python setup.py install --user && \
+    cd && rm -rf /tmp/networkx
+
 ADD http://sourceforge.net/projects/simplehtmldom/files/simple_html_dom.php/download /apps/vendor/simple_html_dom.php
 
 COPY src/ startup.sh /apps/
