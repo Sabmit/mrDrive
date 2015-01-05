@@ -29,6 +29,7 @@ RUN apt-get -yq install --no-install-recommends \
     python-scipy                                \
     python-pandas                               \
     python-dev                                  \
+    python-setuptools                           \
     g++
 
 ENV GOLANG_VERSION 1.3.3
