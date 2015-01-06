@@ -1,6 +1,7 @@
 var app = angular.module('server');
 
 app.controller('SearchController', ['$scope', '$http', function ($scope, $http) {
+    host = "http://" + window.location.host;
     mthis = this;
     mthis.Keyword = {};
     mthis.Found = false;
@@ -9,7 +10,7 @@ app.controller('SearchController', ['$scope', '$http', function ($scope, $http) 
     mthis.total_used = 0;
 
     mthis.getKeywordData = function() {
-        $http.get('http://127.0.0.1:8080/api/keywords/' + mthis.KeywordForm)
+        $http.get(host + '/api/keywords/' + mthis.KeywordForm)
             .success(function(response) {
                 if (response.Keyword != '') {
                     mthis.total_used = 0;

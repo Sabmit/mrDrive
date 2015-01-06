@@ -13,6 +13,7 @@ NAME		= server
 BINDIR		= bin
 SR		= ./srcs/
 CMDBUILD	= go build
+CMDGET		= go get
 PRINTF		= /usr/bin/printf
 RM		= /bin/rm -rf
 
@@ -27,7 +28,7 @@ SRCS		= $(SR)server.go			\
 
 all		: $(NAME) ok
 
-$(NAME)		:
+$(NAME)		: mapping
 		@ $(PRINTF) "Executable name is: \033[33m$(NAME)\033[m\n"
 		  $(CMDBUILD)  -v -o $(BINDIR)/$(NAME) $(SRCS)
 
@@ -35,13 +36,28 @@ run		: $(NAME)
 		@ $(PRINTF) "Executable : \033[33m$(NAME)\033[m is now running\n"
 		 ./$(BINDIR)/$(NAME)
 
+mapping		:
+		@ $(PRINTF) "Mapping of index mrdrive... : "
+		@ curl -XPUT 127.0.0.1:9200/mrdrive/ --data-binary @conf/mapping.json;
+
 
 clean		:
 		@ $(RM) $(BINDIR)/$(NAME)
 		@ $(PRINTF) "\033[32m[OK]\033[m CLEAN $(NAME)\n\n"
 
+clean_all	: clean vendor_clean
+		@ $(PRINTF) "\033[32m[OK]\033[m CLEAN ALL $(NAME)\n\n"
+
 re		: clean $(NAME) ok
 
+vendor_clean	:
+		rm -rf ./_vendor/src
+
+vendor_get	: vendor_clean
+		$(CMDGET) -d -u -v			\
+		github.com/belogik/goes 		\
+		github.com/go-martini/martini		\
+		github.com/opesun/nested
 
 ####################### - Make Utilities - #######################
 
@@ -49,4 +65,4 @@ ok	:
 	@ $(PRINTF) "\033[32m[OK]\033[m Compilation done. \n\n"
 
 
-.PHONY: clean run test
+.PHONY: clean run test clean_all vendor_clean vendor_get mapping
