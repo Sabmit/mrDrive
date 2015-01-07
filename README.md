@@ -6,7 +6,7 @@ We assume ```Docker``` is installed.
 
 First, you will need to download and run two docker images by executing
 these commands :
-```bash
+```sh
 sudo docker run --name redis-server -d redis
 sudo docker run -it --name mrDrive --link redis-server:db sabmit/mrdrive
 ```
@@ -23,7 +23,7 @@ implementation using scipy module, but it uses a compressed sparse graph so
 we can not find a list of different paths with the same weight.
 
 The script using networkx is to use as follow :
-```bash
+```sh
 Usage: python main_networkx.py [options] Source Target
 Options:
   -h, --help         show this help message and exit
@@ -32,19 +32,19 @@ Options:
                         Read the graph from FILE in csv format
 ```
 By default it uses ```graph.csv``` to read each edges properties.
-```bash
+```sh
 root@x:/apps/graph-1# python main_networkx.py --all 0 6
 ```
-```bash
+```sh
 Shortest path from 0 to 6 = [0, 2, 7, 3, 6]
 This path takes 5 steps and costs 1.51
 The list of all path with weight 1.51 :
 [[0, 2, 7, 3, 6]]
 ```
 ##Crawling-2
-The crawler uses ```Tor``` to make hidden HTTP request.  
-Also, it uses ```Redis``` to stock the data.  
-These scrips are written in PHP which could be executed in an HHVM environment.  
+The crawler uses ```Tor``` to make hidden HTTP request.
+Also, it uses ```Redis``` to stock the data.
+These scrips are written in PHP which could be executed in an HHVM environment.
 
 ```sh
 root@e605cd33c90b:/apps/crawling-2# ls -l
@@ -56,42 +56,42 @@ total 24
 root@e605cd33c90b:/apps/crawling-2#
 ```
 
-Use ```./start.php``` to get the data.  
-Use ```./readData.php``` to make sure the data is insite the redis db  
-Please make sure ```Tor``` is running by executing the ```startup.sh``` script.  
+Use ```./start.php``` to get the data.
+Use ```./readData.php``` to make sure the data is insite the redis db
+Please make sure ```Tor``` is running by executing the ```startup.sh``` script.
 
 ##Msg-processing-3
-For this Test, I decided to write a Rest API in Golang.  
-First, build the project using the makefile.  
+For this Test, I decided to write a Rest API in Golang.
+First, build the project using the makefile.
 Here are the steps :
-```bash
+```sh
 root@x:/apps/msg-process-3# make vendor_get && make run &
 ```
-The server is now running.  
+The server is now running.
 You can add some test data inside the database by executing this command :
 
-```bash
+```sh
 ...# curl -XPUT 127.0.0.1:9200/mrdrive/keywords/_bulk?pretty --data-binary @datasetM.json
 ```
 
-You may notice that the index has been created during the building of the server.  
-You will now need to retreive the Ip of the running mrDrive image.  
+You may notice that the index has been created during the building of the server.
+You will now need to retreive the Ip of the running mrDrive image.
 Here is the command line to execute on your machine :
-```bash
+```sh
 sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' mrDrive
 ```
-On my machine, mrDrive is using this ip ```172.17.0.84```  
-I will now use my browse to see the dashboard at this address : ```http://172.17.0.84:8080```  
+On my machine, mrDrive is using this ip ```172.17.0.84```
+I will now use my browse to see the dashboard at this address : ```http://172.17.0.84:8080```
 The dasboard is written in JS using angularJS / Bootsrap.
 
 You can check the ```TODO.md``` file for further informations.
 
 ##Classification-4
 The classification is made in Python using a stochastic gradient descent (SGD)
-training algorithm.  
+training algorithm.
 The classifier uses the file ```data/train_test.csv``` to train (85% of the file)
-and test (15% of the file).  
+and test (15% of the file).
 Simply run this command to classify products from ```data/data.csv```.
-```bash
+```sh
 root@x:/apps/classification-4# python classifier.py
 ```
